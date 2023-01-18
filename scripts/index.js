@@ -88,10 +88,16 @@ const addCard = (card) => {
   cardContainer.prepend(card);
 };
 
-// выведем карточки из массива на страницу с помощью цикла forEach
+/* // выведем карточки из массива на страницу с помощью цикла forEach
 initialCards.forEach((item) => {
   // создаём и добавляем карточку
   addCard(createCard(item.name, item.link));
+}); */
+
+initialCards.forEach((item) => {
+  // создаём экземпляр класса Card
+  const card = new Card(item, '#template-card');
+  document.querySelector('.elements__list').append(card.generateCard());
 });
 
 // функция устанавливает значения введённые пользователем
