@@ -1,0 +1,12 @@
+.popup__form {
+  width: 430px;
+  grid-column: 2;
+  grid-row: 2;
+}
+
+@media screen and (max-width: 618px) {
+  .popup__form {
+    width: 100%;
+    grid-column: 1;
+  }
+}

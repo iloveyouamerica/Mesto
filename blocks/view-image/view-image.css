@@ -1,0 +1,12 @@
+.view-image {
+  margin: 0;
+  grid-column: 2;
+  grid-row: 2;
+  position: relative;
+}
+
+@media screen and (max-width: 618px) {
+  .view-image {
+    grid-column: 1;
+  }
+}

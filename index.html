@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesto</title>
+  <link rel="stylesheet" href="./pages/index.css">
+</head>
+<body class="page">
+  <div class="wrapper">
+    <header class="header">
+      <img src="./images/header/logo.svg" alt="Логотип страницы в заголовке." class="header__logo">
+    </header>
+    <main class="main">
+      <section class="profile">
+        <img src="./images/profile-info/profile-photo.jpg" alt="Улыбающийся Жак-Ив Кусто в красной шапке и синей рубашке на фоне моря" class="profile__image">
+        <div class="profile__text-wrapper">
+          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <button type="button" class="profile__button-edit button" aria-label="Редактировать профиль" id="edit-btn"></button>
+          <p class="profile__about">Исследователь океана</p>
+        </div>
+        <button type="button" class="profile__button-add button" aria-label="Добавить место" id="add-btn"></button>
+      </section>
+      <section class="elements">
+        <ul class="elements__list"></ul>
+      </section>
+    </main>
+    <footer class="footer">
+      <p class="footer__text">© 2022 Mesto Russia</p>
+    </footer>
+  </div>
+  <!-- popup редактирование profile -->
+  <div class="popup" id="popup-edit">
+    <div class="popup__container">
+      <button type="button" class="popup__close-btn button" id="close-popup-edit"></button>
+      <form method="POST" name="profile-edit" class="popup__form form" id="form-profile-edit" novalidate>
+        <h3 class="form__title">Редактировать профиль</h3>
+        <label>
+          <input type="text" name="user-name" class="form__input" id="input-name" placeholder="Имя" minlength="2" maxlength="40" required>
+          <span class="form__error-message input-name-error"></span>
+        </label>
+        <label>
+          <input type="text" name="user-about" class="form__input" id="input-about" placeholder="О себе" minlength="2" maxlength="200" required>
+          <span class="form__error-message input-about-error"></span>
+        </label>
+        <button type="submit" class="form__submit">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <!-- popup добавление карточек -->
+  <div class="popup" id="popup-add">
+    <div class="popup__container">
+      <button type="button" class="popup__close-btn button" id="close-popup-add"></button>
+      <form method="POST" name="card-add" class="popup__form form" id="form-card-add" novalidate>
+        <h3 class="form__title">Новое место</h3>
+        <label>
+          <input type="text" name="place-name" class="form__input" id="input-place-name" placeholder="Название" minlength="2" maxlength="30" required>
+          <span class="form__error-message input-place-name-error"></span>
+        </label>
+        <label>
+          <input type="url" name="place-link" class="form__input" id="input-place-link" placeholder="Ссылка на картинку" required>
+          <span class="form__error-message input-place-link-error"></span>
+        </label>
+        <button type="submit" class="form__submit">Создать</button>
+      </form>
+    </div>
+  </div>
+  <!-- popup просмотра фотографий -->
+  <div class="popup popup_opacity_dark" id="popup-image-view">
+    <div class="popup__container">
+      <button type="button" class="popup__close-btn button" id="close-popup-image-view"></button>
+      <figure class="view-image">
+        <img src="#" alt="" class="view-image__image">
+        <figcaption class="view-image__title"></figcaption>
+      </figure>
+    </div>
+  </div>
+  <!-- template cards -->
+  <template id="template-card">
+    <li class="elements__list-item">
+      <article class="elements__card card">
+        <button type="button" class="card__delete button" aria-label="Удалить карточку"></button>
+        <img src="#" alt="" class="card__image">
+        <div class="card__description">
+          <h2 class="card__title"></h2>
+          <button type="button" class="card__like" aria-label="Поставить лайк"></button>
+        </div>
+      </article>
+    </li>
+  </template>
+  <script src="./scripts/constants.js"></script>
+  <script src="./scripts/index.js"></script>
+  <script src="./scripts/validate.js"></script>
+</body>
+</html>

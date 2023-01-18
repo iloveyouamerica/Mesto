@@ -1,0 +1,70 @@
+/* Импортируем normilize.css для сброса стандартных стилей браузера */
+@import url(../vendor/normalize.css);
+
+/* Подключаем сторонние шрифты -------------------------------------*/
+@import url(../vendor/fonts.css);
+
+/* Подключаем глобальные стили всей страницы -----------------------*/
+@import url(../blocks/page/page.css);
+@import url(../blocks/wrapper/wrapper.css);
+
+/* Header ----------------------------------------------------------*/
+@import url(../blocks/header/header.css);
+@import url(../blocks/header/__logo/header__logo.css);
+
+
+/* Main ------------------------------------------------------------*/
+@import url(../blocks/main/main.css);
+
+/* Profile ---------------------------------------------------------*/
+@import url(../blocks/profile/profile.css);
+@import url(../blocks/profile/__image/profile__image.css);
+@import url(../blocks/profile/__button-add/profile__button-add.css);
+@import url(../blocks/profile/__text-wrapper/profile__text-wrapper.css);
+@import url(../blocks/profile/__name/profile__name.css);
+@import url(../blocks/profile/__button-edit/profile__button-edit.css);
+@import url(../blocks/profile/__about/profile__about.css);
+
+/* Button ----------------------------------------------------------*/
+@import url(../blocks/button/button.css);
+
+/* Elements --------------------------------------------------------*/
+@import url(../blocks/elements/elements.css);
+@import url(../blocks/elements/__list/elements__list.css);
+@import url(../blocks/elements/__card/elements__card.css);
+
+/* Card (карточки) -------------------------------------------------*/
+@import url(../blocks/card/card.css);
+@import url(../blocks/card/__image/card__image.css);
+@import url(../blocks/card/__description/card__description.css);
+@import url(../blocks/card/__title/card__title.css);
+@import url(../blocks/card/__like/card__like.css);
+@import url(../blocks/card/__like_active/card__like_active.css);
+@import url(../blocks/card/__delete/card__delete.css);
+
+/* Popup -----------------------------------------------------------*/
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/popup/__container/popup__container.css);
+@import url(../blocks/popup/__close-btn/popup__close-btn.css);
+@import url(../blocks/popup/__form/popup__form.css);
+@import url(../blocks/popup/_opacity_dark/popup_opacity_dark.css);
+
+/* Форма редактирования профиля ------------------------------------*/
+@import url(../blocks/form/form.css);
+@import url(../blocks/form/__title/form__title.css);
+@import url(../blocks/form/__input/form__input.css);
+@import url(../blocks/form/__input/_error/form__input_error.css);
+@import url(../blocks/form/__error-message/form__error-message.css);
+@import url(../blocks/form/__submit/form__submit.css);
+@import url(../blocks/form/__submit/_inactive/form__submit_inactive.css);
+
+
+/* Footer ----------------------------------------------------------*/
+@import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__text/footer__text.css);
+
+/* Большая картинка для просмотра ----------------------------------*/
+@import url(../blocks/view-image/view-image.css);
+@import url(../blocks/view-image/__image/view-image__image.css);
+@import url(../blocks/view-image/__title/view-image__title.css);

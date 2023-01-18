@@ -1,0 +1,44 @@
+.profile__about {
+  margin: 0;
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: #fff;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 940px) {
+  .profile__about {
+    grid-column: 2;
+    justify-self: center;
+    text-align: center;
+    font-size: calc(100vw * 0.023);
+    line-height: calc(100vw * 0.033);
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .profile__about {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .profile__about {
+    font-size: calc(100vw * 0.045);
+    line-height: calc(100vw * 0.06);
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .profile__about {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}

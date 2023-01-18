@@ -1,0 +1,13 @@
+.card__delete {
+  width: 18px;
+  height: 19px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: transparent;
+  background-image: url(../../../images/elements/backet-delete.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: none;
+  padding: 0;
+}

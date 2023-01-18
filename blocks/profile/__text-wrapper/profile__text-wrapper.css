@@ -1,0 +1,19 @@
+.profile__text-wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 18px;
+  row-gap: 16px;
+}
+
+@media screen and (max-width: 940px) {
+  .profile__text-wrapper {
+    grid-template-columns: 1fr auto 1fr;
+    row-gap: 14px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .profile__text-wrapper {
+    column-gap: 10px;
+  }
+}
