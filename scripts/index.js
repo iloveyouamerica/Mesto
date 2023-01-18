@@ -34,6 +34,14 @@ const inputListFormCardAdd = Array.from(formCardAdd.querySelectorAll('.form__inp
 const submitFormProfileEdit = formProfileEdit.querySelector('.form__submit'); // submit формы редактирования
 const submitFormAddCard = formCardAdd.querySelector('.form__submit'); // submit формы добавления карточки
 
+// создаём экземпляры для каждой формы
+
+// экземпляр класса для формы редактирования профиля
+const formValidatorProfile = new FormValidator(validationSettings, formProfileEdit);
+
+// экземпляр класса для формы добавления карточек
+const formValidatorAddCard = new FormValidator(validationSettings, formCardAdd);
+
 // функция создаёт большую картинку для просмотра в полном размере
 const createBigViewImage = (name, link) => {
   bigImage.src = link;
@@ -144,23 +152,30 @@ buttonOpenEditProfileForm.addEventListener('click', () => {
   setProfileData();
 
   // очистим ошибки валидации формы
-  clearErrorMessage(formProfileEdit, inputListFormProfileEdit, validationSettings);
+  //clearErrorMessage(formProfileEdit, inputListFormProfileEdit, validationSettings);
+  formValidatorProfile.clearErrorMessage(inputListFormProfileEdit);
 
   // проверим валидность полей формы и активируем / деактивируем кнопку submit
-  toggleButtonState(inputListFormProfileEdit, submitFormProfileEdit, validationSettings);
+  //toggleButtonState(inputListFormProfileEdit, submitFormProfileEdit, validationSettings);
+  formValidatorProfile.toggleButtonState(inputListFormProfileEdit, submitFormProfileEdit);
 });
 
 // открыть popup для добавления новых мест
 buttonOpenAddCardForm.addEventListener('click', () => {
   // очистим ошибки валидации формы
-  clearErrorMessage(formCardAdd, inputListFormCardAdd, validationSettings);
+  //clearErrorMessage(formCardAdd, inputListFormCardAdd, validationSettings);
+  formValidatorAddCard.clearErrorMessage(inputListFormCardAdd);
 
   // проверим валидность полей формы и активируем / деактивируем кнопку submit
-  toggleButtonState(inputListFormCardAdd, submitFormAddCard, validationSettings);
+  //toggleButtonState(inputListFormCardAdd, submitFormAddCard, validationSettings);
+  formValidatorAddCard.toggleButtonState(inputListFormCardAdd, submitFormAddCard);
 
   // откроем popup
   openPopup(popupAddCard);
 });
+
+formValidatorAddCard.enableValidation();
+formValidatorProfile.enableValidation();
 
 buttonCloseEditPopup.addEventListener('click', () => {closePopup(popupEditProfile)}); // закрыть popup без сохранения изменений
 buttonCloseAddPopup.addEventListener('click', () => {resetForm(formCardAdd)}); // закрыть popup без сохранения изменений
