@@ -53,7 +53,7 @@ const addCard = (card) => {
 // выведем карточки из массива на страницу с помощью цикла forEach
 initialCards.forEach((item) => {
   // создаём экземпляр класса Card
-  const card = new Card(item.name, item.link, '#template-card');
+  const card = new Card(item, '#template-card');
   document.querySelector('.elements__list').append(card.generateCard());
 });
 
@@ -122,11 +122,14 @@ const submitAddCardForm  = (event) => {
   // отменяем событие отправки формы
   event.preventDefault();
 
-  const nameCard = inputNameCard.value;
-  const linkCard = inputLinkCard.value;
+  // получаем данные будущей карточки из формы
+  const cardData = {
+    name: inputNameCard.value,
+    link: inputLinkCard.value
+  };
 
   // создадим и добавим новую карточку
-  const card = new Card(nameCard, linkCard, '#template-card');
+  const card = new Card(cardData, '#template-card');
   addCard(card.generateCard());
 
   // очистим поля формы и закроем popup
