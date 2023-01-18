@@ -34,21 +34,6 @@ const inputListFormCardAdd = Array.from(formCardAdd.querySelectorAll('.form__inp
 const submitFormProfileEdit = formProfileEdit.querySelector('.form__submit'); // submit формы редактирования
 const submitFormAddCard = formCardAdd.querySelector('.form__submit'); // submit формы добавления карточки
 
-// функция добавления и снятия лайков
-const getLike = (event) => {
-  // активируем или деактивируем лайк
-  event.target.classList.toggle('card__like_active');
-};
-
-// функция удаления карточки
-const deleteCard = (event) => {
-  // найти ближайшего родителя
-  const card = event.target.closest('.elements__list-item');
-  
-  // удаляем карточку
-  card.remove();
-};
-
 // функция создаёт большую картинку для просмотра в полном размере
 const createBigViewImage = (name, link) => {
   bigImage.src = link;
@@ -59,44 +44,16 @@ const createBigViewImage = (name, link) => {
   openPopup(popupImageView);
 };
 
-// функция создаёт карточки
-const createCard = (cardName, cardLink) => {
-  // клонируем шаблон карточки
-  const card = cardTemplate.content.querySelector('.elements__list-item').cloneNode(true);
-
-  // находим в карточке поле с именем
-  const cloneCardImage = card.querySelector('.card__image');
-
-  // добавляем в поле имя и альтернативное описание
-  cloneCardImage.src = cardLink;
-  cloneCardImage.alt = cardName;
-
-  // устанавливаем имя карточке
-  card.querySelector('.card__title').textContent = cardName;
-
-  // вешаем слушатели событий на кпонку лайк и удаление
-  card.querySelector('.card__like').addEventListener('click', getLike);
-  card.querySelector('.card__delete').addEventListener('click', deleteCard);
-  cloneCardImage.addEventListener('click', () => {createBigViewImage(cardName, cardLink)});
-  
-  return card;
-};
-
 // функция добавляет карточки на страницу
 const addCard = (card) => {
   // добавим каждую новую карточку в начало списка
   cardContainer.prepend(card);
 };
 
-/* // выведем карточки из массива на страницу с помощью цикла forEach
-initialCards.forEach((item) => {
-  // создаём и добавляем карточку
-  addCard(createCard(item.name, item.link));
-}); */
-
+// выведем карточки из массива на страницу с помощью цикла forEach
 initialCards.forEach((item) => {
   // создаём экземпляр класса Card
-  const card = new Card(item, '#template-card');
+  const card = new Card(item.name, item.link, '#template-card');
   document.querySelector('.elements__list').append(card.generateCard());
 });
 
@@ -169,7 +126,8 @@ const submitAddCardForm  = (event) => {
   const linkCard = inputLinkCard.value;
 
   // создадим и добавим новую карточку
-  addCard(createCard(nameCard, linkCard));
+  const card = new Card(nameCard, linkCard, '#template-card');
+  addCard(card.generateCard());
 
   // очистим поля формы и закроем popup
   resetForm(event.target);

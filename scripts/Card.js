@@ -1,6 +1,7 @@
 class Card {
-  constructor(dataCard, template) {
-    this._dataCard = dataCard;
+  constructor(name, link, template) {
+    this._name = name;
+    this._link = link;
     this._template = template;
   }
 
@@ -14,9 +15,9 @@ class Card {
   generateCard() {
     this._card = this._getTemplate();
 
-    this._card.querySelector('.card__image').src = this._dataCard.link;
-    this._card.querySelector('.card__image').alt = this._dataCard.name;
-    this._card.querySelector('.card__title').textContent = this._dataCard.name;
+    this._card.querySelector('.card__image').src = this._link;
+    this._card.querySelector('.card__image').alt = this._name;
+    this._card.querySelector('.card__title').textContent = this._name;
 
     // добавим метод обработки событий
     this._setEventListeners();
@@ -37,7 +38,7 @@ class Card {
   // метод откроет картинку в большом размере внутри popup
   _openBigImage() {
     // вызываем функцию открытия попапа с картинкой большого размера
-    createBigViewImage(this._dataCard.name, this._dataCard.link);
+    createBigViewImage(this._name, this._link);
   }
 
   // метод устанавливает слушатели событий на карточку
