@@ -1,6 +1,6 @@
 
-// объект первичных настроек
-const validationSettings = {
+// объект первичных настроек валидации
+export const validationSettings = {
   inputError: 'form__input_error', // input подчёркивается красным
   inputSelector: '.form__input', // селектор полей input
   formSelector: '.form', // селектор формы
@@ -8,7 +8,7 @@ const validationSettings = {
   inactiveButtonClass: 'form__submit_inactive' // состояние кнопки submit
 };
 
-class FormValidator {
+export class FormValidator {
   constructor(objectSettings, form) {
     this._inputError = objectSettings.inputError; // класс-модификатор подчёркивает input красным
     this._inputSelector = objectSettings.inputSelector; // селектор полей input
@@ -96,11 +96,11 @@ class FormValidator {
       // сделать кнопку неактивной
       buttonElement.classList.add(this._inactiveButtonClass);
       buttonElement.disabled = true;
-      console.log('кнопка неактивна');
+      //console.log('кнопка неактивна');
     } else {
       buttonElement.classList.remove(this._inactiveButtonClass);
       buttonElement.disabled = false;
-      console.log('кнопка активна');
+      //console.log('кнопка активна');
     }
   }
 

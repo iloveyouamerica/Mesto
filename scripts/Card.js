@@ -1,4 +1,7 @@
-class Card {
+// импортируем функцию открытия картинки большого размера внутри попап
+import {createBigViewImage} from './index.js';
+
+export class Card {
   constructor(data, template) {
     this._name = data.name;
     this._link = data.link;

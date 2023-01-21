@@ -1,3 +1,7 @@
+import {Card} from './Card.js';
+import {validationSettings, FormValidator} from './FormValidator.js';
+import {initialCards} from './constants.js';
+
 // определяем переменные
 const buttonOpenEditProfileForm = document.querySelector('#edit-btn'); // кнопка редактирования профиля
 const buttonOpenAddCardForm = document.querySelector('#add-btn'); // кнопка добавления карточки
@@ -43,7 +47,7 @@ const formValidatorProfile = new FormValidator(validationSettings, formProfileEd
 const formValidatorAddCard = new FormValidator(validationSettings, formCardAdd);
 
 // функция создаёт большую картинку для просмотра в полном размере
-const createBigViewImage = (name, link) => {
+export const createBigViewImage = (name, link) => {
   bigImage.src = link;
   bigImage.alt = name;
   bigImageTitle.textContent = name;
