@@ -10,9 +10,7 @@ const popupEditProfile = document.querySelector('#popup-edit'); // popup ред�
 const popupAddCard = document.querySelector('#popup-add'); // popup добавления новых фотокарточек
 const popupImageView = document.querySelector('#popup-image-view'); // popup для большой картинки
 
-const buttonCloseEditPopup = document.querySelector('#close-popup-edit'); // кнопка закрытия popup-edit
-const buttonCloseAddPopup = document.querySelector('#close-popup-add'); // кнопка закрытия popup-add
-const buttonCloseImagePopup = document.querySelector('#close-popup-image-view'); // кнопка закрытия popup-image
+const closePopupButtons = document.querySelectorAll('.popup__close-btn'); // все кнопки-крестики закрытия попапов
 
 const profileName = document.querySelector('.profile__name'); // имя
 const profileAbout = document.querySelector('.profile__about'); // о себе
@@ -39,21 +37,28 @@ const submitFormProfileEdit = formProfileEdit.querySelector('.form__submit'); //
 const submitFormAddCard = formCardAdd.querySelector('.form__submit'); // submit формы добавления карточки
 
 // создаём экземпляры для каждой формы
-
 // экземпляр класса для формы редактирования профиля
 const formValidatorProfile = new FormValidator(validationSettings, formProfileEdit);
 
 // экземпляр класса для формы добавления карточек
 const formValidatorAddCard = new FormValidator(validationSettings, formCardAdd);
 
-// функция создаёт большую картинку для просмотра в полном размере
-export const createBigViewImage = (name, link) => {
+
+// функция открытия большой картинки для просмотра в полном размере
+const handleCardClick = (name, link) => {
   bigImage.src = link;
   bigImage.alt = name;
   bigImageTitle.textContent = name;
 
-  // откроем popup
+  //открываем попап универсальной функцией, которая навешивает обработчик Escape внутри себя
   openPopup(popupImageView);
+};
+
+// функция создания новой карточки
+const createCard = (item) => {
+  const card = new Card(item, '#template-card', handleCardClick);
+  const cardElement = card.generateCard();
+  return cardElement;
 };
 
 // функция добавляет карточки на страницу
@@ -64,9 +69,7 @@ const addCard = (card) => {
 
 // выведем карточки из массива на страницу с помощью цикла forEach
 initialCards.forEach((item) => {
-  // создаём экземпляр класса Card
-  const card = new Card(item, '#template-card');
-  document.querySelector('.elements__list').append(card.generateCard());
+  cardContainer.append(createCard(item));
 });
 
 // функция устанавливает значения введённые пользователем
@@ -141,8 +144,7 @@ const submitAddCardForm  = (event) => {
   };
 
   // создадим и добавим новую карточку
-  const card = new Card(cardData, '#template-card');
-  addCard(card.generateCard());
+  addCard(createCard(cardData));
 
   // очистим поля формы и закроем popup
   resetForm(event.target);
@@ -155,24 +157,16 @@ buttonOpenEditProfileForm.addEventListener('click', () => {
   // установим данные полям и откроем popup
   setProfileData();
 
-  // очистим ошибки валидации формы
-  //clearErrorMessage(formProfileEdit, inputListFormProfileEdit, validationSettings);
-  formValidatorProfile.clearErrorMessage(inputListFormProfileEdit);
-
-  // проверим валидность полей формы и активируем / деактивируем кнопку submit
-  //toggleButtonState(inputListFormProfileEdit, submitFormProfileEdit, validationSettings);
-  formValidatorProfile.toggleButtonState(inputListFormProfileEdit, submitFormProfileEdit);
+  // очистим ошибки валидации формы и проверим валидность полей формы
+  // и активируем / деактивируем кнопку submit
+  formValidatorProfile.resetValidation();
 });
 
 // открыть popup для добавления новых мест
 buttonOpenAddCardForm.addEventListener('click', () => {
-  // очистим ошибки валидации формы
-  //clearErrorMessage(formCardAdd, inputListFormCardAdd, validationSettings);
-  formValidatorAddCard.clearErrorMessage(inputListFormCardAdd);
-
-  // проверим валидность полей формы и активируем / деактивируем кнопку submit
-  //toggleButtonState(inputListFormCardAdd, submitFormAddCard, validationSettings);
-  formValidatorAddCard.toggleButtonState(inputListFormCardAdd, submitFormAddCard);
+  // очистим ошибки валидации формы и проверим валидность полей формы
+  // и активируем / деактивируем кнопку submit
+  formValidatorAddCard.resetValidation();
 
   // откроем popup
   openPopup(popupAddCard);
@@ -181,12 +175,20 @@ buttonOpenAddCardForm.addEventListener('click', () => {
 formValidatorAddCard.enableValidation();
 formValidatorProfile.enableValidation();
 
-buttonCloseEditPopup.addEventListener('click', () => {closePopup(popupEditProfile)}); // закрыть popup без сохранения изменений
-buttonCloseAddPopup.addEventListener('click', () => {resetForm(formCardAdd)}); // закрыть popup без сохранения изменений
-buttonCloseImagePopup.addEventListener('click', () => {closePopup(popupImageView)}); // закрыть popup с просмотром картинки
+// повесим на все кнопки-крестики закрытия попапов обработчик события
+closePopupButtons.forEach((button) => {
+  // найдём ближайший к кнопке-крестику попап
+  const popup = button.closest('.popup');
+  
+  // устанавливаем обработчик события на каждую кнопку-крестик закрытия попап
+  button.addEventListener('click', () => closePopup(popup));
+});
 
-formProfileEdit.addEventListener('submit', saveChangeProfile); // отправка данных из формы редактирования профиля
-formCardAdd.addEventListener('submit', submitAddCardForm); // отправка данных из формы добавлеия новой карточки
+// отправка данных из формы редактирования профиля
+formProfileEdit.addEventListener('submit', saveChangeProfile);
+
+// отправка данных из формы добавлеия новой карточки
+formCardAdd.addEventListener('submit', submitAddCardForm);
 
 // закрытие popup по overlay, найдём все popup'ы в документе
 const popups = document.querySelectorAll('.popup');

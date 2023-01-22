@@ -16,6 +16,9 @@ export class FormValidator {
     this._inactiveButtonClass = objectSettings.inactiveButtonClass; // селектор кнопки submit
     this._submitButtonSelector = objectSettings.submitButtonSelector; // состояние кнопки submit
     this._form = form; // элемент формы, которая валидируется
+
+    this._inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
+    this._buttonElement = this._form.querySelector(this._submitButtonSelector);
   }
 
   // функция показа ошибки при заполнения поля
@@ -51,34 +54,23 @@ export class FormValidator {
 
   // функция повесит обработчики события на каждый инпут
   _setEventListeners() {
-    // находим коллекцию и преобразуем в массив все инпуты
-    const inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
-    const buttonElement = this._form.querySelector(this._submitButtonSelector);
-
     // вызовем функцию проверки состояния кнопки submit
-    this.toggleButtonState(inputList, buttonElement);
+    this.toggleButtonState(this._inputList, this._buttonElement);
 
     // обходим циклом массив и вешаем обработчик события на каждый input
-    inputList.forEach(inputElement => {
+    this._inputList.forEach(inputElement => {
       inputElement.addEventListener('input', () => {
         this._inputValidation(inputElement)
 
         // вызовем функцию проверки состояния кнопки submit
-        this.toggleButtonState(inputList, buttonElement);
+        this.toggleButtonState(this._inputList, this._buttonElement);
       });
     });
   }
 
   // функция добавляет валидацию всем формам
   enableValidation() {
-    // найдём все формы в документе
-    const formList = Array.from(document.querySelectorAll(this._formSelector));
-
-    // перебор циклом всех форм
-    formList.forEach(formElement => {
-      // для каждой формы вызовем setEventListeners
-      this._setEventListeners(formElement);
-    });
+    this._setEventListeners();
   }
 
   // функция проверит на валидность сразу все поля формы
@@ -104,10 +96,12 @@ export class FormValidator {
     }
   }
 
-  // функция удаляет сообщения с ошибками формы
-  clearErrorMessage(inputList) {
-    inputList.forEach(input => {
-      this._hideInputError(input);
+  // функция сброса валидации формы
+  resetValidation() {
+    this.toggleButtonState(this._inputList, this._buttonElement);
+
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement);
     });
   }
 }
