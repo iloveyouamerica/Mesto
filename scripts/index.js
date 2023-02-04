@@ -1,6 +1,6 @@
-import {Card} from './Card.js';
-import {validationSettings, FormValidator} from './FormValidator.js';
-import {initialCards} from './constants.js';
+import { Card } from './Card.js';
+import { validationSettings, FormValidator } from './FormValidator.js';
+import { initialCards } from './constants.js';
 import { Section } from './Section.js';
 
 // определяем переменные
