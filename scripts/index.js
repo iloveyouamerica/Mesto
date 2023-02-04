@@ -1,6 +1,7 @@
 import {Card} from './Card.js';
 import {validationSettings, FormValidator} from './FormValidator.js';
 import {initialCards} from './constants.js';
+import { Section } from './Section.js';
 
 // определяем переменные
 const buttonOpenEditProfileForm = document.querySelector('#edit-btn'); // кнопка редактирования профиля
@@ -54,6 +55,8 @@ const handleCardClick = (name, link) => {
   openPopup(popupImageView);
 };
 
+
+// ------------------------------------------- NEW CARD CREATE ----------------------------------------
 // функция создания новой карточки
 const createCard = (item) => {
   const card = new Card(item, '#template-card', handleCardClick);
@@ -61,7 +64,21 @@ const createCard = (item) => {
   return cardElement;
 };
 
-// функция добавляет карточки на страницу
+// циклом берём все данные из массива карточек
+const cardList = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const card = createCard(item);
+
+    // добавляем карточку на страницу
+    cardList.addItem(card);
+  }
+}, cardContainer);
+
+// вызовем метод экземпляра класса Section для отрисовки (не добавления) карточки
+cardList.renderItems();
+
+/* // функция добавляет карточки на страницу
 const addCard = (card) => {
   // добавим каждую новую карточку в начало списка
   cardContainer.prepend(card);
@@ -70,7 +87,9 @@ const addCard = (card) => {
 // выведем карточки из массива на страницу с помощью цикла forEach
 initialCards.forEach((item) => {
   cardContainer.append(createCard(item));
-});
+}); */
+
+// ---------------------------------------------NEW CARD CREATE END ----------------------------------
 
 // функция устанавливает значения введённые пользователем
 const setProfileData = () => {
