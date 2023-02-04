@@ -57,7 +57,7 @@ const handleCardClick = (name, link) => {
 
 
 // ------------------------------------------- NEW CARD CREATE ----------------------------------------
-// функция создания новой карточки
+// функция создания новой карточки через экземпляр класса Card (можно без неё, напрямую создавать в экз. класса Section)
 const createCard = (item) => {
   const card = new Card(item, '#template-card', handleCardClick);
   const cardElement = card.generateCard();
@@ -78,13 +78,13 @@ const cardList = new Section({
 // вызовем метод экземпляра класса Section для отрисовки (не добавления) карточки
 cardList.renderItems();
 
-/* // функция добавляет карточки на страницу
+// функция добавляет карточки на страницу
 const addCard = (card) => {
   // добавим каждую новую карточку в начало списка
   cardContainer.prepend(card);
 };
 
-// выведем карточки из массива на страницу с помощью цикла forEach
+/*// выведем карточки из массива на страницу с помощью цикла forEach
 initialCards.forEach((item) => {
   cardContainer.append(createCard(item));
 }); */
