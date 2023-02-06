@@ -2,6 +2,7 @@ import { Card } from './Card.js';
 import { validationSettings, FormValidator } from './FormValidator.js';
 import { initialCards } from './constants.js';
 import { Section } from './Section.js';
+import { PopupWithImage } from './PopupWithImage.js';
 
 // определяем переменные
 const buttonOpenEditProfileForm = document.querySelector('#edit-btn'); // кнопка редактирования профиля
