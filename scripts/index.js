@@ -2,7 +2,9 @@ import { Card } from './Card.js';
 import { validationSettings, FormValidator } from './FormValidator.js';
 import { initialCards } from './constants.js';
 import { Section } from './Section.js';
+//import { Popup } from './Popup.js';
 import { PopupWithImage } from './PopupWithImage.js';
+import { PopupWithForm } from './PopupWithForm.js';
 
 // определяем переменные
 const buttonOpenEditProfileForm = document.querySelector('#edit-btn'); // кнопка редактирования профиля
@@ -223,3 +225,8 @@ popups.forEach(popup => {
     }
   });
 });
+
+const p = new PopupWithForm('#popup-add');
+p.open();
+//p._getInputValues();
+p.setEventListeners();
