@@ -41,11 +41,11 @@
       <form method="POST" name="profile-edit" class="popup__form form" id="form-profile-edit" novalidate>
         <h3 class="form__title">Редактировать профиль</h3>
         <label>
-          <input type="text" name="user-name" class="form__input" id="input-name" placeholder="Имя" minlength="2" maxlength="40" required>
+          <input type="text" name="username" class="form__input" id="input-name" placeholder="Имя" minlength="2" maxlength="40" required>
           <span class="form__error-message input-name-error"></span>
         </label>
         <label>
-          <input type="text" name="user-about" class="form__input" id="input-about" placeholder="О себе" minlength="2" maxlength="200" required>
+          <input type="text" name="userinfo" class="form__input" id="input-about" placeholder="О себе" minlength="2" maxlength="200" required>
           <span class="form__error-message input-about-error"></span>
         </label>
         <button type="submit" class="form__submit">Сохранить</button>
@@ -59,11 +59,11 @@
       <form method="POST" name="card-add" class="popup__form form" id="form-card-add" novalidate>
         <h3 class="form__title">Новое место</h3>
         <label>
-          <input type="text" name="place-name" class="form__input" id="input-place-name" placeholder="Название" minlength="2" maxlength="30" required>
+          <input type="text" name="name" class="form__input" id="input-place-name" placeholder="Название" minlength="2" maxlength="30" required>
           <span class="form__error-message input-place-name-error"></span>
         </label>
         <label>
-          <input type="url" name="place-link" class="form__input" id="input-place-link" placeholder="Ссылка на картинку" required>
+          <input type="url" name="link" class="form__input" id="input-place-link" placeholder="Ссылка на картинку" required>
           <span class="form__error-message input-place-link-error"></span>
         </label>
         <button type="submit" class="form__submit">Создать</button>

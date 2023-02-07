@@ -1,3 +1,5 @@
+// этот класс добавляет карточки на страницу в html-контейнер
+
 export class Section {
   constructor({items, renderer}, containerSelector) {
     this._itemsArray = items; // массив данных, которые нужно добавить на страницу
@@ -5,14 +7,8 @@ export class Section {
     this._container = containerSelector; // селектор контейнера, в который нужно добавлять созданные эле-ты
   }
 
-  // приватный метод для очистки контейнера
-  _containerClear() {
-    this._container.innerHTML = ""; // убрать все html-элементы из контейнера
-  }
-
   // публичный метод, который отвечает за отрисовку всех эл-тов
   renderItems() {
-    this._containerClear();
     
     this._itemsArray.forEach((item) => {
       this._renderer(item); // вызываем renderer, передав ей эл-т массива item

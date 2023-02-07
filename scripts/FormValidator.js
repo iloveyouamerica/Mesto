@@ -15,7 +15,7 @@ export class FormValidator {
     this._formSelector = objectSettings.formSelector; // селектор формы
     this._inactiveButtonClass = objectSettings.inactiveButtonClass; // селектор кнопки submit
     this._submitButtonSelector = objectSettings.submitButtonSelector; // состояние кнопки submit
-    this._form = form; // элемент формы, которая валидируется
+    this._form = document.querySelector(form); // элемент формы, которая валидируется
 
     this._inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
     this._buttonElement = this._form.querySelector(this._submitButtonSelector);
