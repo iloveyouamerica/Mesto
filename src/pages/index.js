@@ -1,3 +1,5 @@
+import './index.css'; // добавили импорт главного файла стилей 
+
 import { Card } from '../components/Card.js';
 import { validationSettings, FormValidator } from '../components/FormValidator.js';
 import { Section } from '../components/Section.js';
