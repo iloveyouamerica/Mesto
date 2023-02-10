@@ -6,13 +6,11 @@ export class PopupWithForm extends Popup {
     super(popupSelector);
     this._handleFormSubmit = handleFormSubmit; // функция-коллбэк сабмита формы
     this._form = this._popup.querySelector('.popup__form'); // найдём форму данного попап
+    this._inputsList = this._form.querySelectorAll('.form__input'); // находим все инпуты формы открытого попап
   }
 
   // приватный метод _getInputValues, который собирает данные всех полей формы данного попап
   _getInputValues() {
-    // находим все инпуты формы открытого попап
-    this._inputsList = this._form.querySelectorAll('.form__input');
-
     // объект с данными полей формы
     this._formValues = {};
 

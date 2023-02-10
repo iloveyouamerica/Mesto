@@ -42,6 +42,6 @@ export class Popup {
     this._popup.classList.remove('popup_opened');
 
     // вешаем обработчик события на документ и отслеживаем клик по клавише Esc
-    document.addEventListener('keydown', this._handleEscClose);
+    document.removeEventListener('keydown', this._handleEscClose);
   }
 }
