@@ -3,6 +3,7 @@ export class Card {
   constructor(data, template, handleCardClick) {
     this._name = data.name;
     this._link = data.link;
+    this._likeCount = data.likes.length; // массив лайков (узнаём длину массива)
     this._template = template;
     this._handleCardClick = handleCardClick;
   }
@@ -20,10 +21,12 @@ export class Card {
     // переменные класса
     this._cardImage = this._card.querySelector('.card__image');
     this._cardTitle = this._card.querySelector('.card__title');
+    this._cardLikeCount = this._card.querySelector('.card__like-counter');
 
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._cardTitle.textContent = this._name;
+    this._cardLikeCount.textContent = this._likeCount;
 
     // добавим метод обработки событий
     this._setEventListeners();

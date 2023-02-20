@@ -16,7 +16,7 @@ export class PopupWithForm extends Popup {
 
     // обойдём поля формы циклом и соберём данные в объект
     this._inputsList.forEach((item) => {
-      this._formValues[item.name] = item.value; // именем свойства будет аттрибут name инпута
+      this._formValues[item.name] = item.value; // именем свойства будет аттрибут name инпута формы
     });
 
     // вернём объект со значениями полей формы

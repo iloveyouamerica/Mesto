@@ -19,12 +19,12 @@
     <main class="main">
       <section class="profile">
         <button type="button" class="profile__avatar-edit-button" aria-label="Редактировать аватар">
-          <img src="<%=require('./images/profile-info/profile-photo.jpg')%>" alt="Улыбающийся Жак-Ив Кусто в красной шапке и синей рубашке на фоне моря" class="profile__image">
+          <img src="<!--<%=require('./images/profile-info/profile-photo.jpg')%>->" alt="Улыбающийся Жак-Ив Кусто в красной шапке и синей рубашке на фоне моря" class="profile__image">
         </button>
         <div class="profile__text-wrapper">
-          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <h1 class="profile__name"><!--Жак-Ив Кусто--></h1>
           <button type="button" class="profile__button-edit button" aria-label="Редактировать профиль" id="edit-btn"></button>
-          <p class="profile__about">Исследователь океана</p>
+          <p class="profile__about"><!--Исследователь океана--></p>
         </div>
         <button type="button" class="profile__button-add button" aria-label="Добавить место" id="add-btn"></button>
       </section>
@@ -92,7 +92,7 @@
           <h2 class="card__title"></h2>
           <div class="card__like-container">
             <button type="button" class="card__like" aria-label="Поставить лайк"></button>
-            <p class="card__like-counter">3</p>
+            <p class="card__like-counter"></p>
           </div>
         </div>
       </article>

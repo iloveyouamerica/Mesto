@@ -3,9 +3,10 @@
 // элемента имени пользователя и элемента информации о себе
 
 export class UserInfo {
-  constructor({userNameSelector, userInfoSelector}) {
+  constructor({userNameSelector, userInfoSelector, userAvatarSelector}) {
     this._userName = document.querySelector(userNameSelector);
     this._userInfo = document.querySelector(userInfoSelector);
+    this._userAvatar = document.querySelector(userAvatarSelector);
   }
 
   // публичный метод, возвращает объект с данными пользователя
@@ -18,8 +19,10 @@ export class UserInfo {
   }
 
   // публичный метод setUserInfo, который принимает новые данные пользователя и добавляет их на страницу
-  setUserInfo(userData) {
-    this._userName.textContent = userData.username;
-    this._userInfo.textContent = userData.userinfo;
+  setUserInfo({name, about, avatar, _id}) {
+    this._userName.textContent = name;
+    this._userInfo.textContent = about;
+    this._userAvatar.src = avatar;
+    this.userId = _id;
   }
 }
