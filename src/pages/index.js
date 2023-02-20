@@ -5,9 +5,10 @@ import { validationSettings, FormValidator } from '../components/FormValidator.j
 import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
+import { PopupConfirm } from '../components/PopupConfirm.js';
 import { UserInfo } from '../components/UserInfo.js';
 //import { initialCards } from '../utils/constants.js';
-import { Api } from '../components/Api';
+import { Api } from '../components/Api.js';
 
 // определяем переменные
 const buttonOpenEditProfileForm = document.querySelector('#edit-btn'); // кнопка редактирования профиля
@@ -90,12 +91,6 @@ Promise.all([api.getUserInfo(), api.getCards()])
     cardList.renderItems(cards.reverse());
   })
 
-/* // попробуем отредактировать профиль
-api.editUserProfile({name: 'Trevor Phillips', about: 'GTA 5 Forever'})
-  .then((data) => {
-    console.log(data);
-  }); */
-
 // -------------------------------------------- Создаём экземпляры классов FormValidator ------------------------
 const validatorFromEdit = new FormValidator(validationSettings, '#form-profile-edit'); // валидатор формы редактирования профиля
 validatorFromEdit.enableValidation(); // включаем валидацию формы
@@ -155,6 +150,13 @@ const handleFormSubmitCardAdd = (data) => { // здесь data - это объе
     })
 };
 
+// callback сабмита формы удаление карточки
+const handleFormSubmitDeleteCard = (event) => {
+  console.log("Типа удаление карточки");
+  console.log(event.target);
+  console.log(event.target._id);
+};
+
 // попап с формой редактирования профиля
 const popupFormEdit = new PopupWithForm('#popup-edit', handleFormSubmitProfileEdit);
 // установим ему слушатели событий
@@ -164,6 +166,11 @@ popupFormEdit.setEventListeners();
 const popupFormAdd = new PopupWithForm('#popup-add', handleFormSubmitCardAdd);
 // установим ему слушатели событий
 popupFormAdd.setEventListeners();
+
+// попап с подтверждением намериния (удалить карточку)
+const popupConfirm = new PopupConfirm('#popup-confirm', handleFormSubmitDeleteCard);
+// установим слушатели событий
+popupConfirm.setEventListeners();
 
 // -------------------------------------------- Открываем popup с формой редактирования профиля ------
 
