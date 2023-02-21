@@ -19,8 +19,5 @@ export class PopupConfirm extends Popup {
       // вызываем callback сабмита
       this._handleFormSubmit();
     });
-
-    // закроем попап
-    this.close();
   }
 }

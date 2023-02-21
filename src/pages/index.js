@@ -1,6 +1,6 @@
 import './index.css'; // добавили импорт главного файла стилей 
 
-import { Card } from '../components/Card.js';
+import { Card2 } from '../components/Card2.js';
 import { validationSettings, FormValidator } from '../components/FormValidator.js';
 import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
@@ -56,23 +56,45 @@ api.getUserInfo()
   }); */
 
 // ------------------------------------------- NEW CARD CREATE ----------------------------------------
-// функция создания новой карточки через экземпляр класса Card (можно без неё, напрямую создавать в экз. класса Section)
+
 // функция открытия большой картинки для просмотра в полном размере
-const handleCardClick = (name, link) => {
+const handleImageClick = (name, link) => {
 
   // открываем попап с большой картинкой (экземпляр класса создан 1 раз ниже)
   popupWithImage.open(link, name); // вызываем метод открытия попап, он обновит данные картинки внутри (url и title)
 };
 
-// создаём 1 раз 1 экземпляр класса попапа для большой картинки
-const popupWithImage = new PopupWithImage('#popup-image-view'); // создаём объект класса
-// устанавливаем слушатели событий на попап с большой картинкой
-popupWithImage.setEventListeners(); // вызываем метод добавления слушателей событий
+// функция удаления карточки (для мягкой связи между классами)
+const handleDeleteCard = () => {
+  console.log("Удалили карточку!");
+};
+
+/* // функция создания новой карточки
+const createCard = (item) => {
+  const card = new Card2(item, '#template-card', {handleImageClick});
+  const cardElement = card.generateCard();
+  return cardElement;
+}; */
 
 // функция создания новой карточки
 const createCard = (item) => {
-  const card = new Card(item, '#template-card', handleCardClick);
-  const cardElement = card.generateCard();
+  //const card = new Card2(item, '#template-card', {handleImageClick, handleLikeClick, handleDeleteLikeClick, handleDeleteCard});
+  const card = new Card2(item, '#template-card', {
+    handleImageClick,
+    handleLikeClick: () => {
+      console.log('Дабавляем лайк', item._id);
+    },
+    handleDeleteLikeClick: () => {
+      console.log("Удалили лайк!", item._id);
+    },
+    handleDeleteCard: () => { // передаём в классе объект готовой карточки
+      console.log("Удалили карточку!", item._id, item);
+      // нужно открыть попап с подтверждением удаления карточки
+      popupConfirm.open();
+
+    }
+  });
+  const cardElement = card.generateCard(userInfo.userId); // пробросим наш id на этап создания карточки
   return cardElement;
 };
 
@@ -151,10 +173,9 @@ const handleFormSubmitCardAdd = (data) => { // здесь data - это объе
 };
 
 // callback сабмита формы удаление карточки
-const handleFormSubmitDeleteCard = (event) => {
-  console.log("Типа удаление карточки");
-  console.log(event.target);
-  console.log(event.target._id);
+const handleFormSubmitDeleteCard = () => {
+  console.log("Подтверждение удаления карточки");
+  popupConfirm.close();
 };
 
 // попап с формой редактирования профиля
@@ -166,6 +187,11 @@ popupFormEdit.setEventListeners();
 const popupFormAdd = new PopupWithForm('#popup-add', handleFormSubmitCardAdd);
 // установим ему слушатели событий
 popupFormAdd.setEventListeners();
+
+// создаём экземпляр класса попапа для большой картинки
+const popupWithImage = new PopupWithImage('#popup-image-view'); // создаём объект класса
+// устанавливаем слушатели событий на попап с большой картинкой
+popupWithImage.setEventListeners(); // вызываем метод добавления слушателей событий
 
 // попап с подтверждением намериния (удалить карточку)
 const popupConfirm = new PopupConfirm('#popup-confirm', handleFormSubmitDeleteCard);
