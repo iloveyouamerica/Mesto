@@ -70,6 +70,44 @@ export class Api {
     })
       .then(handleResponse);
   }
+
+  // метод для удаления карточки https://mesto.nomoreparties.co/v1/cohortId/cards/cardId 
+  deleteCard(cardId) {
+    return fetch(`${this._baseUrl}/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(handleResponse);
+  }
+
+  // метод для добавления лайка карточке https://mesto.nomoreparties.co/v1/cohortId/cards/cardId/likes
+  addLikeCard(cardId) {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+      method: 'PUT',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(handleResponse);
+  }
+
+  // метод для удаления лайка карточке https://mesto.nomoreparties.co/v1/cohortId/cards/cardId/likes
+  deleteLikeCard(cardId) {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(handleResponse);
+  }
+
+
 }
 
 /* const api = new Api(optionsApi, (data) => {

@@ -3,13 +3,13 @@ export class Card2 {
   constructor(data, template, {handleImageClick, handleLikeClick, handleDeleteLikeClick, handleDeleteCard}) {
     this._name = data.name; // название карточки с сервера
     this._link = data.link; // url картинки (с сервера)
-    this._likes = data.likes; // счётчик лайков (с свервера)
+    this._likes = data.likes; // список лайков, кто лайкнул (с свервера)
     this._owner = data.owner._id; // id владельца карточки (с сервера)
     this._template = template; // селектор шаблона
     this._handleImageClick = handleImageClick; // метод для открытия большой картинки
-    this._handleLikeClick = handleLikeClick; // метод для добавления лайка
-    this._handleDeleteLikeClick = handleDeleteLikeClick; // метод для снятия лайка
-    this._handleDeleteCard = handleDeleteCard; // метод для удаления карточки
+    this.handleLikeClick = handleLikeClick; // метод для добавления лайка
+    this.handleDeleteLikeClick = handleDeleteLikeClick; // метод для снятия лайка
+    this.handleDeleteCard = handleDeleteCard; // метод для удаления карточки
   }
 
   // метод получает шаблон карты
@@ -19,7 +19,7 @@ export class Card2 {
   }
 
   // метод создаёт карточку на основе шаблона и данных
-  generateCard(myId) {
+  generateCard(myId) { //myId передаётся методу generate
     this._card = this._getTemplate(); // получаем шаблон карточки
 
     // переменные класса
@@ -36,9 +36,18 @@ export class Card2 {
     this._cardLikeCount.textContent = this._likes.length;
 
     // удалим кнопку корзины (удаления карточки), если это картчка загружена не мною
-    if(this._owner != myId) {
+    if(this._owner != myId) { //myId передаётся методу generate
       this._cardDeleteButton.remove();
     }
+
+    // проверим лайкал ли пользователь эту карточку ранее, если он есть в списке лайкнувших, то сделаем сердечко активным
+    this._likes.find((like) => {
+      // если в списке лайкнувших есть мой id, то активируем сердечко
+      if(like._id === myId) { //myId передаётся методу generate
+        this.getActiveLike(); // отрисуем активный лайк (не добавляем количество)
+      }
+      // по умолчанию лайк не активен
+    });
 
     // добавим метод обработки событий
     this._setEventListeners();
@@ -46,24 +55,45 @@ export class Card2 {
     return this._card;
   }
 
+  // метод для подстчёта и отрисовки количества лайков
+  getLikesCount(data) {
+    this._cardLikeCount.textContent = data.likes.length;
+  }
+
+  // метод для удаления карточки
+  deleteCard() {
+    this._card.remove();
+    this._card = null;
+  }
+
+  // метод только для отрисовки активного лайка
+  getActiveLike() {
+    this._cardLikeButton.classList.add('card__like_active');
+  }
+
+  // метод для отрисовки неактивного лайка
+  deleteActiveLike() {
+    this._cardLikeButton.classList.remove('card__like_active');
+  }
+
   // внутренний ментод для удаления лайка с карточки
   _deleteLike() {
     // удалим класс с активным лайком
-    this._cardLikeButton.classList.remove('card__like_active');
+    this.deleteActiveLike();
     //console.log("Delete Like!");
 
     // вызовем функцию обработчик (опишем её в index.js)
-    this._handleDeleteLikeClick();
+    this.handleDeleteLikeClick();
   }
 
   // внутренний метод для добавления лайка карточке
   _getLike() {
     // установим класс с активным лайком
-    this._cardLikeButton.classList.add('card__like_active');
+    this.getActiveLike();
     //console.log("Get Like");
 
     // вызовем функцию, описанную в index.js
-    this._handleLikeClick();
+    this.handleLikeClick();
   }
 
   // метод устанавливает слушатели событий на карточку
@@ -83,12 +113,12 @@ export class Card2 {
 
     // слушатель удаления карточки (клик по корзине)
     this._cardDeleteButton.addEventListener('click', () => {
-      this._handleDeleteCard();
+      this.handleDeleteCard();
     });
 
     // слушатель клика по картинке карточки, чтобы открыть её в большом размере
     this._cardImage.addEventListener('click', () => {
-      this._handleImageClick(this._name, this._link);
+      this.handleImageClick(this._name, this._link);
     });
   }
 }
