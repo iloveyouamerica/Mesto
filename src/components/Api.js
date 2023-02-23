@@ -107,6 +107,20 @@ export class Api {
       .then(handleResponse);
   }
 
+  // метод для редактирования аватара пользователя PATCH https://mesto.nomoreparties.co/v1/cohortId/users/me/avatar 
+  changeAvatar(avatarLink) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        avatar: avatarLink
+      })
+    })
+      .then(handleResponse);
+  }
 
 }
 

@@ -6,7 +6,7 @@ export class Card2 {
     this._likes = data.likes; // список лайков, кто лайкнул (с свервера)
     this._owner = data.owner._id; // id владельца карточки (с сервера)
     this._template = template; // селектор шаблона
-    this._handleImageClick = handleImageClick; // метод для открытия большой картинки
+    this.handleImageClick = handleImageClick; // метод для открытия большой картинки
     this.handleLikeClick = handleLikeClick; // метод для добавления лайка
     this.handleDeleteLikeClick = handleDeleteLikeClick; // метод для снятия лайка
     this.handleDeleteCard = handleDeleteCard; // метод для удаления карточки

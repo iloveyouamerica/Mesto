@@ -11,16 +11,19 @@ import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
 
 // определяем переменные
+const profileImage = document.querySelector('.profile__image');
 const buttonOpenEditProfileForm = document.querySelector('#edit-btn'); // кнопка редактирования профиля
 const buttonOpenAddCardForm = document.querySelector('#add-btn'); // кнопка добавления карточки
+const buttonOpenAvatarEditForm = document.querySelector('#avatar-edit-btn'); // кнопка редактирования аватара
 
 const inputName = document.querySelector('#input-name'); // input с именем
 const inputAbout = document.querySelector('#input-about'); // input о себе
+const inputAvatar = document.querySelector("#input-avatar-link"); // input из формы со сменой аватара
 
 const cardContainer = document.querySelector('.elements__list'); // <ul> блок для карточек
 
-const bigImage = document.querySelector('.view-image__image'); // находим большую картинку в popup'е просмотра
-const bigImageTitle = document.querySelector('.view-image__title'); // находим title большой картинки в popup'е просмотра
+/* const bigImage = document.querySelector('.view-image__image'); // находим большую картинку в popup'е просмотра
+const bigImageTitle = document.querySelector('.view-image__title'); // находим title большой картинки в popup'е просмотра */
 
 // ------------------------------------------- API ----------------------------------------------------
 const optionsApi = { // объект настроек для класса Api
@@ -62,11 +65,6 @@ const handleImageClick = (name, link) => {
 
   // открываем попап с большой картинкой (экземпляр класса создан 1 раз ниже)
   popupWithImage.open(link, name); // вызываем метод открытия попап, он обновит данные картинки внутри (url и title)
-};
-
-// функция удаления карточки (для мягкой связи между классами)
-const handleDeleteCard = () => {
-  console.log("Удалили карточку!");
 };
 
 /* // функция создания новой карточки
@@ -158,9 +156,12 @@ Promise.all([api.getUserInfo(), api.getCards()])
 // -------------------------------------------- Создаём экземпляры классов FormValidator ------------------------
 const validatorFromEdit = new FormValidator(validationSettings, '#form-profile-edit'); // валидатор формы редактирования профиля
 validatorFromEdit.enableValidation(); // включаем валидацию формы
+
 const validatorFromAdd = new FormValidator(validationSettings, '#form-card-add'); // валидатор формы добавления карточки
 validatorFromAdd.enableValidation(); // включаем валидацию формы
 
+const validatorFormAvatarEdit = new FormValidator(validationSettings, '#form-avatar-edit');
+validatorFormAvatarEdit.enableValidation();
 
 // -------------------------------------------- Создаём экземпляры классов Popup и необходимые для работы функции
 
@@ -214,6 +215,29 @@ const handleFormSubmitCardAdd = (data) => { // здесь data - это объе
     })
 };
 
+// callback сабмита формы редактирования аватара пользователя
+const handleFormSubmitAvatarEdit = () => {
+  //console.log('Попап редактирования аватара: форма отправлена!');
+
+  // получим url фотографии из инпута формы
+  
+
+  // отправим запрос на сервер на изменение аватара пользователя
+  api.changeAvatar(inputAvatar.value)
+    .then((data) => {
+      //console.log(data);
+
+      // поменять аватар на странице
+      profileImage.src = data.avatar;
+
+      // закрыть попап
+      popupAvatarEdit.close();
+    })
+    .catch((err) => {
+      console.log(`Ошибка смены аватара: ${err}`);
+    });
+};
+
 // попап с формой редактирования профиля
 const popupFormEdit = new PopupWithForm('#popup-edit', handleFormSubmitProfileEdit);
 // установим ему слушатели событий
@@ -233,6 +257,20 @@ popupWithImage.setEventListeners(); // вызываем метод добавл�
 const popupConfirm = new PopupConfirm('#popup-confirm');
 // установим слушатели событий
 popupConfirm.setEventListeners();
+
+// попап с формой смены аватара
+const popupAvatarEdit = new PopupWithForm('#popup-avatar-edit', handleFormSubmitAvatarEdit);
+// установим слушатели событий
+popupAvatarEdit.setEventListeners();
+
+// -------------------------------------------- Открываем попап редактирования фотографии пользователя
+buttonOpenAvatarEditForm.addEventListener('click', () => {
+  // откроем попап с формой редактирования аватара
+  popupAvatarEdit.open();
+
+  // при открытии попапа проверим состояние кнопки сабмит в форме
+  validatorFormAvatarEdit.resetValidation();
+});
 
 // -------------------------------------------- Открываем popup с формой редактирования профиля ------
 
