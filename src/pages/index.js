@@ -147,6 +147,7 @@ const handleFormSubmitProfileEdit = (data) => { // здесь data - это об
     name: data.username,
     about: data.userinfo
   };
+
   api.editUserProfile(dataUser)
     .then((data) => {
 
@@ -157,7 +158,7 @@ const handleFormSubmitProfileEdit = (data) => { // здесь data - это об
       popupFormEdit.close();
     })
     .catch((err) => {
-      console.log(`Ошибка обновлния данных о пользователе: ${err}`);
+      console.log(`Ошибка обновления данных о пользователе: ${err}`);
     })
     .finally(() => {
       // покажем состояние загрузки
