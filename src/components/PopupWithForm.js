@@ -7,6 +7,8 @@ export class PopupWithForm extends Popup {
     this._handleFormSubmit = handleFormSubmit; // функция-коллбэк сабмита формы
     this._form = this._popup.querySelector('.popup__form'); // найдём форму данного попап
     this._inputsList = this._form.querySelectorAll('.form__input'); // находим все инпуты формы открытого попап
+    this._submitButton = this._form.querySelector('.form__submit'); // кнопка сабмита формы
+    this._submitButtonOriginalText = this._submitButton.textContent;
   }
 
   // приватный метод _getInputValues, который собирает данные всех полей формы данного попап
@@ -37,7 +39,7 @@ export class PopupWithForm extends Popup {
       this._handleFormSubmit(this._getInputValues());
 
       // закрываем попап с формой
-      this.close();
+      // this.close();
     });
   }
 
@@ -45,5 +47,14 @@ export class PopupWithForm extends Popup {
   close() {
     this._form.reset(); // сбросим поля / очистим форму этого попапа
     super.close(); // вызываем метод родителя и ниже расширяем
+  }
+
+  // метод ожидания (показа загрузки данных с сервера и обработки для визуализации процесса)
+  renderLoading(isLoading) {
+    if(isLoading) {
+      this._submitButton.textContent = 'Сохранение...';
+    } else {
+      this._submitButton.textContent = this._submitButtonOriginalText;
+    }
   }
 }

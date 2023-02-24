@@ -1,13 +1,12 @@
 import './index.css'; // добавили импорт главного файла стилей 
 
-import { Card2 } from '../components/Card2.js';
+import { Card } from '../components/Card.js';
 import { validationSettings, FormValidator } from '../components/FormValidator.js';
 import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupConfirm } from '../components/PopupConfirm.js';
 import { UserInfo } from '../components/UserInfo.js';
-//import { initialCards } from '../utils/constants.js';
 import { Api } from '../components/Api.js';
 
 // определяем переменные
@@ -21,9 +20,6 @@ const inputAbout = document.querySelector('#input-about'); // input о себе
 const inputAvatar = document.querySelector("#input-avatar-link"); // input из формы со сменой аватара
 
 const cardContainer = document.querySelector('.elements__list'); // <ul> блок для карточек
-
-/* const bigImage = document.querySelector('.view-image__image'); // находим большую картинку в popup'е просмотра
-const bigImageTitle = document.querySelector('.view-image__title'); // находим title большой картинки в popup'е просмотра */
 
 // ------------------------------------------- API ----------------------------------------------------
 const optionsApi = { // объект настроек для класса Api
@@ -41,23 +37,6 @@ const userInfo = new UserInfo({
   userAvatarSelector: '.profile__image'
 });
 
-/* // после создания класса Api загрузим данные пользователя с сервера и отобразим их на странице
-api.getUserInfo()
-  .then((data) => {
-    //console.log(data);
-    // установим данные пользователя
-    const userData = {
-      username: data.name,
-      userinfo: data.info,
-      useravatar: data.avatar,
-      userid: data._id
-    };
-    userInfo.setUserInfo(userData);
-  })
-  .catch((err) => {
-    console.log(`Ошибка получения информации о пользователе с сервера: ${err}`);
-  }); */
-
 // ------------------------------------------- NEW CARD CREATE ----------------------------------------
 
 // функция открытия большой картинки для просмотра в полном размере
@@ -67,20 +46,12 @@ const handleImageClick = (name, link) => {
   popupWithImage.open(link, name); // вызываем метод открытия попап, он обновит данные картинки внутри (url и title)
 };
 
-/* // функция создания новой карточки
-const createCard = (item) => {
-  const card = new Card2(item, '#template-card', {handleImageClick});
-  const cardElement = card.generateCard();
-  return cardElement;
-}; */
-
 // функция создания новой карточки
 const createCard = (item) => {
-  //const card = new Card2(item, '#template-card', {handleImageClick, handleLikeClick, handleDeleteLikeClick, handleDeleteCard});
-  const card = new Card2(item, '#template-card', {
+  const card = new Card(item, '#template-card', {
     handleImageClick,
     handleLikeClick: () => {
-      console.log('Дабавляем лайк', item._id);
+      //console.log('Дабавляем лайк', item._id);
 
       // вызываем метод класса Api, чтобы послать запрос на сервер для добавления лайка
       api.addLikeCard(item._id)
@@ -98,7 +69,7 @@ const createCard = (item) => {
         });
     },
     handleDeleteLikeClick: () => {
-      console.log("Удалили лайк!", item._id);
+      //console.log("Удаляем лайк!", item._id);
 
       // вызываем метод класса Api, чтобы послать запрос на сервер для удаления лайка
       api.deleteLikeCard(item._id)
@@ -165,22 +136,20 @@ validatorFormAvatarEdit.enableValidation();
 
 // -------------------------------------------- Создаём экземпляры классов Popup и необходимые для работы функции
 
-/* // callback сабмита формы редактирования профиля (второй параметр класса PopupWithForm)
-const handleFormSubmitProfileEdit = (data) => { // здесь data - это объект с данными полей формы
-  // установить новые данные пользователя на страницу
-  userInfo.setUserInfo(data);
-  // попап закроется сам потому что коллбэк сабмита формы имеет такой метод в классе PopupWithForm
-}; */
-
 // callback сабмита формы редактирования профиля (второй параметр класса PopupWithForm)
 const handleFormSubmitProfileEdit = (data) => { // здесь data - это объект с данными полей формы
   // получив данные из полей формы их нужно отправить на сервер и дождаться ответ (получим объект этих новых данных)
+  
+  // покажем состояние загрузки
+  popupFormEdit.renderLoading(true);
+
   const dataUser = {
     name: data.username,
     about: data.userinfo
   };
   api.editUserProfile(dataUser)
     .then((data) => {
+
       // установить новые данные пользователя на страницу
       userInfo.setUserInfo(data);
       // попап закроется сам потому что коллбэк сабмита формы имеет такой метод в классе PopupWithForm
@@ -188,39 +157,45 @@ const handleFormSubmitProfileEdit = (data) => { // здесь data - это об
     .catch((err) => {
       console.log(`Ошибка обновлния данных о пользователе: ${err}`);
     })
+    .finally(() => {
+      // закроем попап
+      popupFormEdit.close();
 
-  /* // установить новые данные пользователя на страницу
-  userInfo.setUserInfo(data);
-  // попап закроется сам потому что коллбэк сабмита формы имеет такой метод в классе PopupWithForm */
+      // покажем состояние загрузки
+      popupFormEdit.renderLoading(false);
+    });
 };
 
 // callback сабмита формы добавления новой карточки (второй параметр класса PopupWithForm)
-const handleFormSubmitCardAdd = (data) => { // здесь data - это объект с данными полей формы
-  // здесь пришёл такой объект: {name: 'NAME', link: 'LINK'}
-  // данные для карточки есть, теперь нужно создать самы карточку
-  // в класс Card мы передаём массив объектов
- 
-  /* const card = createCard(data); // создаём карточку из данных формы
+const handleFormSubmitCardAdd = (data) => { // здесь data - это объект с данными полей формы {name: 'NAME', link: 'LINK'}
 
-  // добавляем карточку на страницу (cardList - это экземпляр класса Section, он отвечает за добавление карточек)
-  cardList.addItem(card); */
+   // покажем состояние загрузки
+   popupFormAdd.renderLoading(true);
 
   api.addNewCard(data)
     .then((dataCard) => { // dataCard - объект ответа от сервера, там содержатся данные новой карточки
       //console.log(dataCard.likes.length);
+
       cardList.addItem(createCard(dataCard));
     })
     .catch((err) => {
-      console.log(`Ошибка добавления новой карточки: ${err}`);
+      console.log(`Ошибка добавления новой карточки: ${err}`)
     })
+    .finally(() => {
+      // закроем попап
+      popupFormAdd.close();
+
+      // покажем состояние загрузки
+      popupFormAdd.renderLoading(false);
+    });
 };
 
 // callback сабмита формы редактирования аватара пользователя
 const handleFormSubmitAvatarEdit = () => {
   //console.log('Попап редактирования аватара: форма отправлена!');
 
-  // получим url фотографии из инпута формы
-  
+  // покажем состояние загрузки
+  popupAvatarEdit.renderLoading(true);
 
   // отправим запрос на сервер на изменение аватара пользователя
   api.changeAvatar(inputAvatar.value)
@@ -229,12 +204,16 @@ const handleFormSubmitAvatarEdit = () => {
 
       // поменять аватар на странице
       profileImage.src = data.avatar;
-
-      // закрыть попап
-      popupAvatarEdit.close();
     })
     .catch((err) => {
-      console.log(`Ошибка смены аватара: ${err}`);
+      console.log(`Ошибка смены аватара: ${err}`)
+    })
+    .finally(() => {
+      // закрыть попап
+      popupAvatarEdit.close();
+
+      // покажем состояние загрузки
+      popupAvatarEdit.renderLoading(false);
     });
 };
 
