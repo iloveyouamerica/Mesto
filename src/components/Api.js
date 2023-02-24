@@ -1,21 +1,16 @@
 
-/* const optionsApi = {
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-60',
-  token: '5ade358d-5f88-408c-b48d-f9edcc6552b1'
-}; */
-
-// функция обработки результата ответа сервера
-const handleResponse = (res) => {
-  if(res.ok) {
-    return res.json();
-  }
-  return Promise.reject(new Error('Произошла ошибка получения данных с сервера'));
-};
-
 export class Api {
   constructor({baseUrl, token}) {
     this._baseUrl = baseUrl;
     this._token = token;
+  }
+
+  // метод обработки результата ответа сервера
+  _checkResponse(res) {
+    if(res.ok) {
+      return res.json();
+    }
+    return Promise.reject(new Error('Произошла ошибка получения данных с сервера'));
   }
 
   // метод для загрузки информации о пользователе с сервера
@@ -26,7 +21,7 @@ export class Api {
         authorization: this._token
       }
     })
-      .then(handleResponse);
+      .then(this._checkResponse);
   }
 
   // метод получения карточек с сервера
@@ -36,7 +31,7 @@ export class Api {
         authorization: this._token
       }
     })
-      .then(handleResponse);
+      .then(this._checkResponse);
   }
 
   // метод для редактирования профиля
@@ -52,7 +47,7 @@ export class Api {
         about: about
       })
     })
-      .then(handleResponse);
+      .then(this._checkResponse);
   }
 
   // метод для добавления новой карточки
@@ -68,7 +63,7 @@ export class Api {
         link: link
       })
     })
-      .then(handleResponse);
+      .then(this._checkResponse);
   }
 
   // метод для удаления карточки https://mesto.nomoreparties.co/v1/cohortId/cards/cardId 
@@ -80,7 +75,7 @@ export class Api {
         'Content-Type': 'application/json'
       }
     })
-      .then(handleResponse);
+      .then(this._checkResponse);
   }
 
   // метод для добавления лайка карточке https://mesto.nomoreparties.co/v1/cohortId/cards/cardId/likes
@@ -92,7 +87,7 @@ export class Api {
         'Content-Type': 'application/json'
       }
     })
-      .then(handleResponse);
+      .then(this._checkResponse);
   }
 
   // метод для удаления лайка карточке https://mesto.nomoreparties.co/v1/cohortId/cards/cardId/likes
@@ -104,7 +99,7 @@ export class Api {
         'Content-Type': 'application/json'
       }
     })
-      .then(handleResponse);
+      .then(this._checkResponse);
   }
 
   // метод для редактирования аватара пользователя PATCH https://mesto.nomoreparties.co/v1/cohortId/users/me/avatar 
@@ -119,7 +114,7 @@ export class Api {
         avatar: avatarLink
       })
     })
-      .then(handleResponse);
+      .then(this._checkResponse);
   }
 
 }

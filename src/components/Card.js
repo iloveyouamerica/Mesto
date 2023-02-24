@@ -79,7 +79,7 @@ export class Card {
   // внутренний ментод для удаления лайка с карточки
   _deleteLike() {
     // удалим класс с активным лайком
-    this.deleteActiveLike();
+    //this.deleteActiveLike();
     //console.log("Delete Like!");
 
     // вызовем функцию обработчик (опишем её в index.js)
@@ -89,7 +89,7 @@ export class Card {
   // внутренний метод для добавления лайка карточке
   _getLike() {
     // установим класс с активным лайком
-    this.getActiveLike();
+    //this.getActiveLike();
     //console.log("Get Like");
 
     // вызовем функцию, описанную в index.js

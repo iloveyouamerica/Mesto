@@ -1,31 +1,27 @@
 import './index.css'; // добавили импорт главного файла стилей 
 
 import { Card } from '../components/Card.js';
-import { validationSettings, FormValidator } from '../components/FormValidator.js';
+import { validationSettings } from '../utils/constants.js';
+import { FormValidator } from '../components/FormValidator.js';
 import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupConfirm } from '../components/PopupConfirm.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
+import { optionsApi } from '../utils/constants.js';
 
 // определяем переменные
-const profileImage = document.querySelector('.profile__image');
 const buttonOpenEditProfileForm = document.querySelector('#edit-btn'); // кнопка редактирования профиля
 const buttonOpenAddCardForm = document.querySelector('#add-btn'); // кнопка добавления карточки
 const buttonOpenAvatarEditForm = document.querySelector('#avatar-edit-btn'); // кнопка редактирования аватара
 
 const inputName = document.querySelector('#input-name'); // input с именем
 const inputAbout = document.querySelector('#input-about'); // input о себе
-const inputAvatar = document.querySelector("#input-avatar-link"); // input из формы со сменой аватара
 
 const cardContainer = document.querySelector('.elements__list'); // <ul> блок для карточек
 
 // ------------------------------------------- API ----------------------------------------------------
-const optionsApi = { // объект настроек для класса Api
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-60',
-  token: '5ade358d-5f88-408c-b48d-f9edcc6552b1'
-};
 
 // создаём объект класса Api
 const api = new Api(optionsApi);
@@ -56,7 +52,7 @@ const createCard = (item) => {
       // вызываем метод класса Api, чтобы послать запрос на сервер для добавления лайка
       api.addLikeCard(item._id)
         .then((data) => {
-          console.log(data);
+          //console.log(data);
 
           // отрисуем сердечко карточке
           card.getActiveLike();
@@ -74,12 +70,16 @@ const createCard = (item) => {
       // вызываем метод класса Api, чтобы послать запрос на сервер для удаления лайка
       api.deleteLikeCard(item._id)
         .then((data) => {
-          console.log(data);
+          //console.log(data);
 
           // отрисуем удаления сердечка
           card.deleteActiveLike();
+
           // взять новое количество лайков в ответе сервера и изменить на странице
           card.getLikesCount(data); // здесь data это ответ с сервера
+        })
+        .catch((err) => {
+          console.log(`Ошибка удаления лайка: ${err}`);
         })
     },
     handleDeleteCard: () => { // передаём в классе объект готовой карточки
@@ -152,15 +152,14 @@ const handleFormSubmitProfileEdit = (data) => { // здесь data - это об
 
       // установить новые данные пользователя на страницу
       userInfo.setUserInfo(data);
-      // попап закроется сам потому что коллбэк сабмита формы имеет такой метод в классе PopupWithForm
+      
+      // закрывать попапы нужно только после удачного ответа сервера
+      popupFormEdit.close();
     })
     .catch((err) => {
       console.log(`Ошибка обновлния данных о пользователе: ${err}`);
     })
     .finally(() => {
-      // закроем попап
-      popupFormEdit.close();
-
       // покажем состояние загрузки
       popupFormEdit.renderLoading(false);
     });
@@ -177,41 +176,41 @@ const handleFormSubmitCardAdd = (data) => { // здесь data - это объе
       //console.log(dataCard.likes.length);
 
       cardList.addItem(createCard(dataCard));
+
+      // закроем попап только после удачного ответа сервера
+      popupFormAdd.close();
     })
     .catch((err) => {
       console.log(`Ошибка добавления новой карточки: ${err}`)
     })
     .finally(() => {
-      // закроем попап
-      popupFormAdd.close();
-
       // покажем состояние загрузки
       popupFormAdd.renderLoading(false);
     });
 };
 
 // callback сабмита формы редактирования аватара пользователя
-const handleFormSubmitAvatarEdit = () => {
+const handleFormSubmitAvatarEdit = (input) => { // в data метод _getInputValues class PopupWithForm передаёт знач. инпутов
   //console.log('Попап редактирования аватара: форма отправлена!');
 
   // покажем состояние загрузки
   popupAvatarEdit.renderLoading(true);
 
   // отправим запрос на сервер на изменение аватара пользователя
-  api.changeAvatar(inputAvatar.value)
+  api.changeAvatar(input.link)
     .then((data) => {
       //console.log(data);
 
       // поменять аватар на странице
-      profileImage.src = data.avatar;
+      userInfo.setAvatar(data.avatar);
+
+      // закрываем попап только после удачного ответа от сервера
+      popupAvatarEdit.close();
     })
     .catch((err) => {
       console.log(`Ошибка смены аватара: ${err}`)
     })
     .finally(() => {
-      // закрыть попап
-      popupAvatarEdit.close();
-
       // покажем состояние загрузки
       popupAvatarEdit.renderLoading(false);
     });

@@ -1,13 +1,4 @@
 
-// объект первичных настроек валидации
-export const validationSettings = {
-  inputError: 'form__input_error', // input подчёркивается красным
-  inputSelector: '.form__input', // селектор полей input
-  formSelector: '.form', // селектор формы
-  submitButtonSelector: '.form__submit', // селектор кнопки submit
-  inactiveButtonClass: 'form__submit_inactive' // состояние кнопки submit
-};
-
 export class FormValidator {
   constructor(objectSettings, form) {
     this._inputError = objectSettings.inputError; // класс-модификатор подчёркивает input красным

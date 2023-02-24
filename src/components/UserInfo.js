@@ -22,7 +22,13 @@ export class UserInfo {
   setUserInfo({name, about, avatar, _id}) {
     this._userName.textContent = name;
     this._userInfo.textContent = about;
-    this._userAvatar.src = avatar;
+    //this._userAvatar.src = avatar;
+    this.setAvatar(avatar);
     this.userId = _id;
+  }
+
+  // публичный метод для изменения аватара
+  setAvatar (avatar) {
+    this._userAvatar.src = avatar;
   }
 }
