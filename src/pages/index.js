@@ -123,6 +123,9 @@ Promise.all([api.getUserInfo(), api.getCards()])
     userInfo.setUserInfo(info);
     cardList.renderItems(cards.reverse());
   })
+  .catch((err) => {
+    console.log(`Ошибка сервера: ${err}`);
+  });
 
 // -------------------------------------------- Создаём экземпляры классов FormValidator ------------------------
 const validatorFromEdit = new FormValidator(validationSettings, '#form-profile-edit'); // валидатор формы редактирования профиля
